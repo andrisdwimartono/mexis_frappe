@@ -100,7 +100,7 @@
    "link_fieldname": "scheduled_job_type"
   }
  ],
- "modified": "2022-06-28 02:55:12.470915",
+ "modified": "2023-05-22 10:16:56.326714",
  "modified_by": "Administrator",
  "module": "Core",
  "name": "Scheduled Job Type",

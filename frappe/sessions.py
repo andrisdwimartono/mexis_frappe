@@ -254,6 +254,7 @@ class Session:
 		self.data.data.user = self.user
 		self.data.data.session_ip = frappe.local.request_ip
 		if self.user != "Guest":
+			employee = frappe.db.get_value("Employee", {"user": self.user}, ["name", "company", "employee_number"])
 			self.data.data.update(
 				{
 					"last_updated": frappe.utils.now(),
@@ -261,11 +262,16 @@ class Session:
 					"full_name": self.full_name,
 					"user_type": self.user_type,
 					"device": self.device,
+					"employee": employee[0] if employee else "",
+					"employee_number": employee[2] if employee else "",
+					"company": employee[1] if employee else "",
 					"session_country": get_geo_ip_country(frappe.local.request_ip)
 					if frappe.local.request_ip
 					else None,
 				}
 			)
+			if employee:
+				frappe.db.set_default("company", employee[1])
 
 		# insert session
 		if self.user != "Guest":

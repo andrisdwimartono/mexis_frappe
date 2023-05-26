@@ -524,7 +524,12 @@ class Document(BaseDocument):
 		for d in self.get_all_children():
 			d.docstatus = self.docstatus
 
+	def _set_company(self):
+		if frappe.session and frappe.session.data and frappe.session.data.company and frappe.session.user != "administrator":
+			self.company = frappe.session.data.company
+
 	def _validate(self):
+		self._set_company()
 		self._validate_mandatory()
 		self._validate_data_fields()
 		self._validate_selects()
